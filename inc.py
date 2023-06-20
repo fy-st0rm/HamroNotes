@@ -10,6 +10,10 @@ from datetime           import *
 from functools          import wraps
 import jwt
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 '''
     This is where all the flask imports are imported
 '''
