@@ -13,6 +13,7 @@ def token_required(func):
 			payload = jwt.decode(token, os.getenv('SECRET_KEY'), algorithms=['HS256'])
 			return func(*args, **kwargs)
 		except Exception as e:
+			print(e)
 			res = {"response": "token is invalid"}
 			return jsonify(res)
 	return decorated
