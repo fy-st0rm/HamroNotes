@@ -1,2 +1,5 @@
 node_modules/
 package-lock.json
+src/__pycache__/
+src/routes/__pycache__/
+src/instance/

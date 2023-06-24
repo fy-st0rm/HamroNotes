@@ -23,6 +23,7 @@
 		"jsonwebtoken": "^9.0.0",
 		"morgan": "^1.10.0",
 		"mysql": "^2.18.1",
+		"node-fetch": "^2.6.11",
 		"uuid": "^9.0.0"
 	}
 }

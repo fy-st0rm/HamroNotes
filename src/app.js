@@ -6,6 +6,7 @@ const http    = require("http");
 
 // Routers
 const index_router = require("./routes/index");
+const signup_router = require("./routes/signup");
 
 // Express app
 const app = express();
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Setting up routers
 app.use("/", index_router);
+app.use("/signup", signup_router);
 
 // Running
 const server = http.createServer(app);
