@@ -1,8 +1,10 @@
 from inc import *
 from model import *
+from response import *
 
 def signup():
 	response = request.get_json()
+	
 	email	 = response['email']
 	username = response['username']
 	password = response['password']
@@ -12,9 +14,6 @@ def signup():
 		usr = User(email=email, password = password, username=username)
 		pdb.session.add(usr)
 		pdb.session.commit()
-
-		res = {"response": "Sucessfully Created Account"}
-		return jsonify(res)
+		return Response(200,"Sucessfully created account",[]).as_json()
 	else:
-		res = {"response": "Email Is Already Used"}
-		return jsonify(res)
+		return Response(400,"Account already exists",[]).as_json()
