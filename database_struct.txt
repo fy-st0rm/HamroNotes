@@ -1,0 +1,34 @@
+comment = {
+	"uid": {
+		"from": "usr",
+		"upvote": 0,
+		"solved": 0,
+		"content": "asdfasdfASDF",
+	}
+}
+
+post = {
+	"id": {
+		"author": "user_id",
+		"title": "Science hw",
+		"description": "Description",
+		"date": "Date",
+		"content": ["/images/img1", ...],
+		"comments": [uid...]
+	}
+}
+
+catergory = {
+	"Science": ["id", ....],
+	"Comerce": ["asdasdas"...],
+}
+
+users = {
+	"id": {
+		"email": ..,
+		"username": ..,
+		"hash": ..
+	}
+}
+
+
