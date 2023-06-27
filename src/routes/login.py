@@ -23,7 +23,7 @@ def login():
 	session['logged_in'] = True
 	token = jwt.encode({
 		'email': email,
-		'exp': datetime.utcnow() + timedelta(seconds=30),
+		'exp': datetime.datetime.utcnow() + timedelta(days=30),
 		'id': usrQuery.id
 	},
 	os.getenv('SECRET_KEY'))

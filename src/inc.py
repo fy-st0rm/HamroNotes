@@ -9,6 +9,11 @@ from flask_login        import *
 from datetime           import *
 from functools          import wraps
 import jwt
+import datetime
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import logging
 
 import os
 from dotenv import load_dotenv

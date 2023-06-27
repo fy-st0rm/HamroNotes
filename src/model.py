@@ -6,6 +6,7 @@ from inc import *
 
 pdb = SQLAlchemy()
 
+	
 class User(pdb.Model, UserMixin):
 	id            = pdb.Column(pdb.Integer, primary_key=True)
 	email         = pdb.Column(pdb.String(50))
@@ -22,4 +23,37 @@ class User(pdb.Model, UserMixin):
 	
 	def verify_password(self, password):
 		return check_password_hash(self.password_hash, password)
+	
+
+class Category(pdb.Model):
+	id = pdb.Column(pdb.Integer, primary_key=True)
+	title  = pdb.Column(pdb.String(50))
+
+class Post(pdb.Model):
+	id = pdb.Column(pdb.Integer, primary_key=True)
+	title  = pdb.Column(pdb.String(50))
+	discription = pdb.Column(pdb.String(150))
+	date = pdb.Column(pdb.DateTime, default=datetime.datetime.utcnow)
+	content = pdb.Column(pdb.String(10000))
+	category = pdb.Column(pdb.Integer, pdb.ForeignKey(Category.id))
+	author = pdb.Column(pdb.Integer, pdb.ForeignKey(User.id))
+
+
+class Comment(pdb.Model):
+	id = pdb.Column(pdb.Integer, primary_key=True)
+	upvoteCount = pdb.Column(pdb.Integer)
+	solved = pdb.Column(pdb.Boolean, default=False)
+	text = pdb.Column(pdb.String(150))
+	postId = pdb.Column(pdb.Integer, pdb.ForeignKey(Post.id))
+	author = pdb.Column(pdb.Integer, pdb.ForeignKey(User.id))
+
+
+
+
+
+
+	
+
+
+
 
