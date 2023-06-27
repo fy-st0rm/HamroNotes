@@ -6,23 +6,19 @@ const globals = require("../globals");
 const router = express.Router();
 
 router.get("/", (req, res, next) => {
-	res.render("signup", { result: req.query.result });
+	res.render("login", { result: req.query.result } );
 });
 
 router.post("/", async (req, res, next) => {
 	let email    = req.body.email;
-	let username = req.body.username;
 	let password = req.body.password;
-
-	//TODO: Check for empty field and check for strong passwords
 
 	let payload = {
 		"email": email,
-		"username": username,
 		"password": password
 	};
 
-	const request = await fetch(globals.server_ip + "/signup", {
+	const request = await fetch(globals.server_ip + "/login", {
 		method: 'POST', 
 		headers: {
 			"Content-Type": "application/json",
@@ -34,12 +30,19 @@ router.post("/", async (req, res, next) => {
 	let result = await request.text();
 	let data = JSON.parse(result);
 
-	res.redirect(url.format({
-		pathname: "signup",
-		query: {
-			"result": `${data.log}`
-		}
-	}));
+	if (data.status == globals.FAILED) {
+		res.redirect(url.format({
+			pathname: "login",
+			query: {
+				"result": `${data.log}`
+			}
+		}));
+		return;
+	}
+
+	let access_token = data.ext[0].token;
+	res.header("Set-Cookie", [`token=${access_token}`, "secure", "httpOnly", "sameSite=Lax"]);
+	res.redirect("/home");
 });
 
 module.exports = router;
