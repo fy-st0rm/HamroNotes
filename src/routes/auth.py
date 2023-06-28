@@ -9,19 +9,19 @@ def token_verification(func):
 		response = request.get_json()
 
 		if not verify_key(["token"], response):
-			return Response(400, "`token` is the required payload fields.", []).as_json()
+			return Response(FAILED, "`token` is the required payload fields.", []).as_json()
 
 		token = response['token']
 		if not token:
-			return Response(400, "`token` is empty.", []).as_json()
+			return Response(FAILED, "`token` is empty.", []).as_json()
 
 		try:
 			payload = jwt.decode(token, os.getenv('SECRET_KEY'), algorithms=['HS256'])
 			return func(*args, **kwargs)
 		except jwt.exceptions.ExpiredSignatureError as e:
-			return Response(400, "Token has been expired.", []).as_json()
+			return Response(TOKEN_EXIPRED, "Token has been expired.", []).as_json()
 		except Exception as e:
-			return Response(400, "Token is invalid", []).as_json()
+			return Response(FAILED, "Token is invalid", []).as_json()
 
 	return decorated
 
@@ -30,7 +30,7 @@ def auth():
 	response = request.get_json()
 
 	if not verify_key(["token"], response):
-		return Response(400, "`token` is the required payload fields.", []).as_json()
+		return Response(FAILED, "`token` is the required payload fields.", []).as_json()
 
 	token = response['token']
 
@@ -42,4 +42,4 @@ def auth():
 		"username": usrQuery.username,
 		"email": usrQuery.email
 	}
-	return Response(200, "Token verified", [res]).as_json()
+	return Response(SUCESS, "Token verified", [res]).as_json()
