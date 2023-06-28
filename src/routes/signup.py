@@ -16,7 +16,7 @@ def signup():
 	usrQuery = User.query.filter_by(email=email).first()
 
 	if usrQuery:
-		return Response(SUCESS,"Account already exists",[]).as_json()
+		return Response(FAILED,"Account already exists",[]).as_json()
 
 	salt = str(secrets.token_hex(32))
 	password = password + salt
