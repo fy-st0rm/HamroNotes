@@ -13,6 +13,7 @@ class User(pdb.Model, UserMixin):
 	username      = pdb.Column(pdb.String(50))
 	password_hash = pdb.Column(pdb.String(250))
 	password_salt = pdb.Column(pdb.String(100))
+	date_joined = pdb.Column(pdb.DateTime, default=datetime.datetime.utcnow)
 
 	@property
 	def password(self):
