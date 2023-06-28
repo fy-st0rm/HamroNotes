@@ -29,6 +29,15 @@ exports.auth_token = async (req, res, next) => {
 		}));
 		return;
 	}
+	else if (data.status == globals.TOKEN_EXPIRED) {
+		res.redirect(url.format({
+			pathname: "login",
+			query: {
+				"result": ``
+			}
+		}));
+		return;
+	}
 
 	// Sucessfully authenticated
 	let user = data.ext[0];

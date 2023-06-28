@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title> Home </title>
+	<title> Home </title>
 </head>
 
 <body>
-  <h1> HamroNotes </h1>
-  <h1> <%= username %> </h1>
+	<h1> HamroNotes </h1>
+	<h1> <%= username %> </h1>
+	<form action="/logout" method="post">
+		<input type="submit" value="logout">
+	</form>
 </body>
 
 </html>

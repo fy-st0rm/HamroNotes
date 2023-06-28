@@ -10,6 +10,8 @@ const index_router = require("./routes/index");
 const signup_router = require("./routes/signup");
 const login_router = require("./routes/login");
 const home_router = require("./routes/home");
+const error_router = require("./routes/error");
+const logout_router = require("./routes/logout");
 
 // Express app
 const app = express();
@@ -31,6 +33,8 @@ app.use("/", index_router);
 app.use("/signup", signup_router);
 app.use("/login", login_router);
 app.use("/home", home_router);
+app.use("/error", error_router);
+app.use("/logout", logout_router);
 
 // Running
 const server = http.createServer(app);

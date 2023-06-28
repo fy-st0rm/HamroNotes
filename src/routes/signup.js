@@ -34,10 +34,17 @@ router.post("/", async (req, res, next) => {
 	let result = await request.text();
 	let data = JSON.parse(result);
 
-	res.redirect(url.format({
-		pathname: "signup",
+	if (data.status == globals.FAILED) {
+		res.render("signup", { result: data.log });
+		return;
+	}
+
+	res.redirect(307, url.format({
+		pathname: "login",
 		query: {
-			"result": `${data.log}`
+			"email": email,
+			"password": password,
+			"result": ""
 		}
 	}));
 });

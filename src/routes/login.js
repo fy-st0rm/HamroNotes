@@ -31,12 +31,7 @@ router.post("/", async (req, res, next) => {
 	let data = JSON.parse(result);
 
 	if (data.status == globals.FAILED) {
-		res.redirect(url.format({
-			pathname: "login",
-			query: {
-				"result": `${data.log}`
-			}
-		}));
+		res.render("login", { result: data.log });
 		return;
 	}
 
