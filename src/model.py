@@ -35,7 +35,7 @@ class Category(pdb.Model):
 class Post(pdb.Model):
 	id = pdb.Column(pdb.Integer, primary_key=True)
 	title  = pdb.Column(pdb.String(50))
-	discription = pdb.Column(pdb.String(150))
+	description = pdb.Column(pdb.String(150))
 	date = pdb.Column(pdb.DateTime, default=datetime.datetime.utcnow)
 	content = pdb.Column(pdb.String(10000))
 	category = pdb.Column(pdb.Integer, pdb.ForeignKey(Category.id))
@@ -44,7 +44,7 @@ class Post(pdb.Model):
 
 class Comment(pdb.Model):
 	id = pdb.Column(pdb.Integer, primary_key=True)
-	upvoteCount = pdb.Column(pdb.Integer)
+	upvoteCount = pdb.Column(pdb.Integer, default=0)
 	solved = pdb.Column(pdb.Boolean, default=False)
 	text = pdb.Column(pdb.String(150))
 	postId = pdb.Column(pdb.Integer, pdb.ForeignKey(Post.id))

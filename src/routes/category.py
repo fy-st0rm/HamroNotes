@@ -13,3 +13,15 @@ def category():
     pdb.session.add(cat)
     pdb.session.commit()
     return Response(SUCESS, "Sucessfully Added Category.", []).as_json()
+
+def category_get():
+    res = {
+        "categories": []
+    }
+    catQuery = Category.query.all()
+    categories = {}
+
+    for cat in catQuery:
+       categories.update({cat.id: cat.title})
+    res["categories"].append(categories)
+    return Response(SUCESS, "", [res]).as_json()
