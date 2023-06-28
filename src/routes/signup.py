@@ -18,7 +18,9 @@ def signup():
 	if usrQuery:
 		return Response(SUCESS,"Account already exists",[]).as_json()
 
-	usr = User(email=email, password = password, username=username)
+	salt = str(secrets.token_hex(32))
+	password = password + salt
+	usr = User(email=email, password = password, username=username, password_salt = salt)
 	pdb.session.add(usr)
 	pdb.session.commit()
 

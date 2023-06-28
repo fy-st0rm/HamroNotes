@@ -17,7 +17,7 @@ def comment():
     try:
         decodedData = jwt.decode(jwt=token, key=os.getenv('SECRET_KEY'), algorithms=["HS256"])
     except jwt.exceptions.ExpiredSignatureError as e:
-        return Response(FAILED, "Token has been expired.", []).as_json()
+        return Response(TOKEN_EXIPRED, "Token has been expired.", []).as_json()
     except Exception as e:
         return Response(FAILED, "Token is invalid", []).as_json()
     id = decodedData['id']
