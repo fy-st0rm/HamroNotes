@@ -16,12 +16,10 @@ def category():
 
 def category_get():
     res = {
-        "categories": []
+        "categories": {}
     }
     catQuery = Category.query.all()
-    categories = {}
 
     for cat in catQuery:
-       categories.update({cat.id: cat.title})
-    res["categories"].append(categories)
+       res["categories"].update({cat.id: cat.title})
     return Response(SUCESS, "", [res]).as_json()
