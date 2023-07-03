@@ -27,7 +27,7 @@ app.add_url_rule("/auth", view_func=auth, methods=["POST"])
 app.add_url_rule("/post", view_func=post, methods=["POST"])
 app.add_url_rule("/post/<id>", view_func=post_get, methods=["POST"])
 app.add_url_rule("/category", view_func=category, methods=["POST"])
-app.add_url_rule("/category_get", view_func=category_get, methods=["POST"])
+app.add_url_rule("/category_get", view_func=category_get, methods=["GET"])
 app.add_url_rule("/comment", view_func=comment, methods=["POST"])
 
 if __name__ == '__main__':
