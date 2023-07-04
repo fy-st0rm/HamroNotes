@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Post </title>
+</head>
+
+<body>
+	<h1> Post </h1>
+
+	<form action="/post" method="post" enctype="multipart/form-data">
+		Title: <input type="text" name="title"> <br>
+		Description:
+		<textarea name="description"></textarea> <br>
+
+		<label for="category">Category:</label>
+		<select name="category">
+			<% for (let i=0; i < categories.length; i++) { %>
+				<option> <%= categories[i] %></option>
+			<% } %>
+		</select> <br>
+
+		 <input type="file" name="multi_images" accept="image/*" multiple>
+		 <input type="submit" value="Post">
+	</form>
+
+</body>
+</html>
