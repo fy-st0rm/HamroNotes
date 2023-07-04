@@ -8,13 +8,14 @@ from utils    import *
 def post():
     response = request.get_json()
     if not verify_key(["title", "description", "content","category","token"], response):
-        return Response(FAILED, "`title`, `discription`,`content`,`category`,`token` are the required payload fields.", []).as_json()
+        return Response(FAILED, "`title`, `description`,`content`,`category`,`token` are the required payload fields.", []).as_json()
 
     title = response['title']
     description = response['description']
-    content = response['content']
+    contents = response['content']
     category = response['category']
     token = response['token']
+
     
     try:
         decodedData = jwt.decode(jwt=token, key=os.getenv('SECRET_KEY'), algorithms=["HS256"])
@@ -26,9 +27,15 @@ def post():
     id = decodedData['id']
     userQuery = User.query.filter_by(id=id).first()
 
-    pst = Post(title=title, description=description, content=content, category=category, author=userQuery.id)
+    pst = Post(title=title, description=description, category=category, author=userQuery.id)
     pdb.session.add(pst)
     pdb.session.commit()
+
+    for content in contents:
+        cont = Content(content=content, postId=pst.id)
+        pdb.session.add(cont)
+        pdb.session.commit()
+
     return Response(SUCESS, "Sucessfully Added Post.", []).as_json()
 
 def post_get(id):

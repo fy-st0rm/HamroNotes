@@ -1,7 +1,9 @@
 from inc      import *
 from model    import *
-from response import *
 from utils    import *
+from hn_email import send_mail
+from response import Response
+
 
 def signup():
 	response = request.get_json()
@@ -24,4 +26,5 @@ def signup():
 	pdb.session.add(usr)
 	pdb.session.commit()
 
+	#send_mail(email, "Welcome to hm!","<h1>test</h1>")
 	return Response(SUCESS,"Sucessfully created account",[]).as_json()

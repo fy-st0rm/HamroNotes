@@ -37,7 +37,6 @@ class Post(pdb.Model):
 	title  = pdb.Column(pdb.String(50))
 	description = pdb.Column(pdb.String(150))
 	date = pdb.Column(pdb.DateTime, default=datetime.datetime.utcnow)
-	content = pdb.Column(pdb.String(10000))
 	category = pdb.Column(pdb.Integer, pdb.ForeignKey(Category.id))
 	author = pdb.Column(pdb.Integer, pdb.ForeignKey(User.id))
 
@@ -49,6 +48,11 @@ class Comment(pdb.Model):
 	text = pdb.Column(pdb.String(150))
 	postId = pdb.Column(pdb.Integer, pdb.ForeignKey(Post.id))
 	author = pdb.Column(pdb.Integer, pdb.ForeignKey(User.id))
+
+class Content(pdb.Model):
+	id = pdb.Column(pdb.Integer, primary_key=True)
+	content = pdb.Column(pdb.String(10000))
+	postId = pdb.Column(pdb.Integer, pdb.ForeignKey(Post.id))
 
 
 
