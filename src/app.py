@@ -23,11 +23,14 @@ pdb.init_app(app)
 app.add_url_rule("/signup", view_func=signup, methods=["POST"])
 app.add_url_rule("/login", view_func=login, methods=["POST"])
 app.add_url_rule("/auth", view_func=auth, methods=["POST"])
+
 app.add_url_rule("/post", view_func=post, methods=["POST"])
 app.add_url_rule("/post/<id>", view_func=post_get, methods=["POST"])
+
 app.add_url_rule("/category", view_func=category, methods=["POST"])
-app.add_url_rule("/category_get", view_func=category_get, methods=["GET"])
-app.add_url_rule("/category_edit", view_func=category_edit, methods=["POST"])
+app.add_url_rule("/category", view_func=category_get, methods=["GET"])
+app.add_url_rule("/category", view_func=category_edit, methods=["PUT"])
+
 app.add_url_rule("/comment", view_func=comment, methods=["POST"])
 
 
