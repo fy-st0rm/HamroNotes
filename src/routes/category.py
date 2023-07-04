@@ -14,7 +14,7 @@ def category():
         cat = Category(title=title)
         pdb.session.add(cat)
         pdb.session.commit()
-    return Response(SUCESS, "Sucessfully Added Category.", []).as_json()
+    return Response(SUCESS, "Sucessfully Added Categorie(s).", []).as_json()
 
 def category_get():
     res = {
@@ -43,3 +43,18 @@ def category_edit():
     pdb.session.add(catQuery)
     pdb.session.commit()
     return Response(SUCESS, "Sucessfully updated post.",[]).as_json()
+
+def category_delete():
+    response = request.get_json()
+    if not verify_key(["ids"], response):
+        return Response(FAILED, "`ids` are the required payload fields.", []).as_json()
+
+    ids = response['ids']
+    delCount = 0
+
+    for id in ids:
+        cat = Category.query.filter_by(id=id).delete()
+        delCount += 1
+    
+    pdb.session.commit()
+    return Response(SUCESS, f"Sucessfully Deleted {delCount} Categorie(s)", []).as_json()
