@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const utils = require("./utils");
 const url = require("url");
 const globals = require("./globals");
 
@@ -7,17 +7,7 @@ exports.auth_token = async (req, res, next) => {
 		"token": req.cookies.token
 	};
 
-	const request = await fetch(globals.server_ip + "/auth", {
-		method: 'POST', 
-		headers: {
-			"Content-Type": "application/json",
-			"Accept": "application/json"
-		},
-		body: JSON.stringify(payload)
-	});
-
-	let result = await request.text();
-	let data = JSON.parse(result);
+	let data = await server_query("/auth", "POST", payload);
 
 	// If authentication failed
 	if (data.status == globals.FAILED) {

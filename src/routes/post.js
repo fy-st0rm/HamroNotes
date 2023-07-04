@@ -1,12 +1,12 @@
 const express = require("express");
 const auth = require("../auth");
 const globals = require("../globals");
-const fetch = require("node-fetch");
 const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 const uuid = require("uuid");
 const fs = require("fs");
+const utils = require("../utils");
 
 const storage = multer.diskStorage({
 	destination: function(req, file, cb) {
@@ -20,18 +20,10 @@ const storage = multer.diskStorage({
 let upload = multer({ storage: storage });
 
 async function fetch_categories() {
-	const request = await fetch(globals.server_ip + "/category", {
-		method: 'GET', 
-		headers: {
-			"Content-Type": "application/json",
-			"Accept": "application/json"
-		},
-	});
-
-	let result = await request.text();
+	const response = await utils.server_query("/category", "GET", {});
 
 	// TODO: This might explode. Be aware.
-	let data = JSON.parse(result).ext[0].categories;
+	let data = response.ext[0].categories;
 	return data;
 }
 
@@ -68,16 +60,8 @@ router.post("/", auth.auth_token, init_folder, upload.array("multi_images"), asy
 		"token": req.cookies.token
 	};
 
-	const request = await fetch(globals.server_ip + "/post", {
-		method: 'POST', 
-		headers: {
-			"Content-Type": "application/json",
-			"Accept": "application/json"
-		},
-		body: JSON.stringify(payload)
-	});
-	let result = await request.text();
-	let data = JSON.parse(result);
+	const request = await utils.server_query("/post", "POST", payload);
+	console.log(request);
 
 	res.redirect("home");
 });

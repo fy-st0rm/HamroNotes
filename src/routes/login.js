@@ -1,7 +1,7 @@
 const express = require("express");
 const url = require("url");
-const fetch = require("node-fetch");
 const globals = require("../globals");
+const utils = require("../utils");
 
 const router = express.Router();
 
@@ -18,18 +18,7 @@ router.post("/", async (req, res, next) => {
 		"password": password
 	};
 
-	const request = await fetch(globals.server_ip + "/login", {
-		method: 'POST', 
-		headers: {
-			"Content-Type": "application/json",
-			"Accept": "application/json"
-		},
-		body: JSON.stringify(payload)
-	});
-
-	let result = await request.text();
-	let data = JSON.parse(result);
-
+	let data = await utils.server_query("/login", "POST", payload);
 	if (data.status == globals.FAILED) {
 		res.render("login", { result: data.log });
 		return;
