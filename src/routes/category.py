@@ -21,5 +21,5 @@ def category_get():
     catQuery = Category.query.all()
 
     for cat in catQuery:
-       res["categories"].update({cat.id: cat.title})
+       res["categories"].update({cat.title: cat.id})
     return Response(SUCESS, "", [res]).as_json()
