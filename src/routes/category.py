@@ -23,3 +23,21 @@ def category_get():
     for cat in catQuery:
        res["categories"].update({cat.title: cat.id})
     return Response(SUCESS, "", [res]).as_json()
+
+def category_edit():
+    response = request.get_json()
+    if not verify_key(["title","id"], response):
+        return Response(FAILED, " `id` `title` are the required payload fields.", []).as_json()
+    
+    newTitle = response["title"]
+    catId = response["id"]
+
+    catQuery = Category.query.filter_by(id=catId).first()
+
+    if catQuery == None:
+        return Response(NOT_FOUND, f"Category with {catId} doesnt exists.",[]).as_json()
+    
+    catQuery.title = newTitle
+    pdb.session.add(catQuery)
+    pdb.session.commit()
+    return Response(SUCESS, "Sucessfully updated post.",[]).as_json()

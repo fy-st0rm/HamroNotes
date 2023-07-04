@@ -7,8 +7,7 @@ from routes.login import login
 from routes.auth import auth
 from routes.post import post
 from routes.post import post_get
-from routes.category import category
-from routes.category import category_get
+from routes.category import category, category_get, category_edit
 from routes.comment import comment
 
 app = Flask(__name__)
@@ -28,7 +27,9 @@ app.add_url_rule("/post", view_func=post, methods=["POST"])
 app.add_url_rule("/post/<id>", view_func=post_get, methods=["POST"])
 app.add_url_rule("/category", view_func=category, methods=["POST"])
 app.add_url_rule("/category_get", view_func=category_get, methods=["GET"])
+app.add_url_rule("/category_edit", view_func=category_edit, methods=["POST"])
 app.add_url_rule("/comment", view_func=comment, methods=["POST"])
+
 
 if __name__ == '__main__':
 	app.run(debug=True)
