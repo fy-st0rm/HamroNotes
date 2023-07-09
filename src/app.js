@@ -14,6 +14,7 @@ const home_router = require("./routes/home");
 const error_router = require("./routes/error");
 const logout_router = require("./routes/logout");
 const post_router = require("./routes/post");
+const image_router = require("./routes/image");
 
 // Express app
 const app = express();
@@ -39,6 +40,7 @@ app.use("/home", home_router);
 app.use("/error", error_router);
 app.use("/logout", logout_router);
 app.use("/post", post_router);
+app.use("/post", image_router);
 
 // Running
 const server = http.createServer(app);

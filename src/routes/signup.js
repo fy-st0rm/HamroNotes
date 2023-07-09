@@ -22,7 +22,7 @@ router.post("/", async (req, res, next) => {
 		"password": password
 	};
 
-	let data = await server_query("/signup", "POST", payload);
+	let data = await utils.server_query("/signup", "POST", payload);
 	if (data.status == globals.FAILED) {
 		res.render("signup", { result: data.log });
 		return;

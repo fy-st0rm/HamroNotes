@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title> <%= title %> </title>
+</head>
+
+<body>
+	<h1> <%= title %> </h1>
+	Author: <%= author %></b>
+	Date: <%= date %> <br>
+	<p> <%= description %> </p>
+
+	<% for (let i = 0; i < content.length; i++) { %>
+		<img src="image/<%= content[i] %>">
+	<% } %>
+</body>
+</html>

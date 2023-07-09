@@ -7,6 +7,7 @@ const path = require("path");
 const uuid = require("uuid");
 const fs = require("fs");
 const utils = require("../utils");
+const url = require("url");
 
 const storage = multer.diskStorage({
 	destination: function(req, file, cb) {
@@ -64,6 +65,32 @@ router.post("/", auth.auth_token, init_folder, upload.array("multi_images"), asy
 	console.log(request);
 
 	res.redirect("home");
+});
+
+router.get("/:post_id", async (req, res, next) => {
+	let post_id = req.params.post_id;
+
+	const request = await utils.server_query(`/post/${post_id}`, "POST");
+
+	if (request.status == globals.NOT_FOUND || request.status == globals.FAILED) {
+		res.redirect(url.format({
+			pathname: "../error",
+			query: {
+				"error": `${request.log}`
+			}
+		}));
+		return;
+	}
+
+	let post = request.ext[0];
+	console.log(post);
+	res.render("post_viewer", {
+		title: post.title,
+		author: post.author,
+		date: post.date,
+		description: post.description,
+		content: post.content
+	});
 });
 
 module.exports = router;

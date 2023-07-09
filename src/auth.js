@@ -7,7 +7,7 @@ exports.auth_token = async (req, res, next) => {
 		"token": req.cookies.token
 	};
 
-	let data = await server_query("/auth", "POST", payload);
+	let data = await utils.server_query("/auth", "POST", payload);
 
 	// If authentication failed
 	if (data.status == globals.FAILED) {
