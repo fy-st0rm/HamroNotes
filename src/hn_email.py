@@ -21,7 +21,7 @@ def send_mail(email, subject, html):
     html_message = MIMEText(html, 'html')
     msg.attach(html_message)
 
-    mailServer = smtplib.SMTP('mail.smtp2go.com', 2525) # 8025, 587 and 25 can also be used.
+    mailServer = smtplib.SMTP('mail.smtp2go.com', 587) # 8025, 587 and 25 can also be used.
     mailServer.ehlo()
     mailServer.starttls()
     mailServer.ehlo()

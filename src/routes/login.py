@@ -20,6 +20,9 @@ def login():
 	if not usrQuery.verify_password(password):
 		return Response(FAILED, "Unable To Verify. Check Your Password", []).as_json()
 
+	if usrQuery.isVerified == False:
+		return Response(FAILED, "Please verify your email before loggin in!", []).as_json()
+
 	session['logged_in'] = True
 	token = jwt.encode({
 		'email': email,

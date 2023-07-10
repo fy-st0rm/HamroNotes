@@ -3,6 +3,7 @@ from model    import *
 from utils    import *
 from hn_email import send_mail
 from response import Response
+from verification_template import *
 
 
 def signup():
@@ -26,5 +27,11 @@ def signup():
 	pdb.session.add(usr)
 	pdb.session.commit()
 
-	#send_mail(email, "Welcome to hm!","<h1>test</h1>")
+	token = jwt.encode({
+		'email': email,
+		'exp': datetime.datetime.utcnow() + timedelta(minutes=30),
+	},
+	os.getenv('SECRET_KEY'))
+	link = "http://127.0.0.1:3000/verify/" + token
+	send_mail(email, SUBJECT ,get_email_template(link))
 	return Response(SUCESS,"Sucessfully created account",[]).as_json()

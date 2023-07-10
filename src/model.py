@@ -11,6 +11,7 @@ class User(pdb.Model, UserMixin):
 	id            = pdb.Column(pdb.Integer, primary_key=True)
 	email         = pdb.Column(pdb.String(50))
 	username      = pdb.Column(pdb.String(50))
+	isVerified    = pdb.Column(pdb.Boolean, default = False)
 	password_hash = pdb.Column(pdb.String(250))
 	password_salt = pdb.Column(pdb.String(100))
 	date_joined = pdb.Column(pdb.DateTime, default=datetime.datetime.utcnow)
