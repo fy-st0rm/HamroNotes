@@ -73,3 +73,32 @@ def post_get(id):
 
 	return Response(SUCESS, "", [res]).as_json()
 
+def post_paginate():
+	response = request.get_json()
+	if not verify_key(["pageNo", "ammount"], response):
+		return Response(FAILED, "`pageNo`, `ammount`", []).as_json()
+	
+
+	pageNo = response["pageNo"]
+	ammount = response["ammount"]
+
+	postQuerys = Post.query.paginate(page=pageNo, per_page=ammount)
+	res = {
+	}
+	for postQuery in postQuerys:	
+		userQuery = User.query.filter_by(id=postQuery.author).first()
+		categoryQuery = Category.query.filter_by(id=postQuery.category).first()
+		commentQuery  = Comment.query.filter_by(postId=postQuery.id).all()
+		contentQuery  = Content.query.filter_by(postId=postQuery.id).all()
+
+		pst = {
+			"id": postQuery.id,
+			"title":postQuery.title,
+			"date":postQuery.date,
+			"author": userQuery.username,
+			"category": categoryQuery.title,
+		}	
+		res.update({pst["id"]: pst})
+
+	return Response(SUCESS, "", [res]).as_json()
+

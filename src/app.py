@@ -6,7 +6,7 @@ from routes.signup import signup
 from routes.login import login
 from routes.auth import auth
 from routes.post import post
-from routes.post import post_get
+from routes.post import post_get, post_paginate
 from routes.category import category, category_get, category_edit, category_delete
 from routes.comment import comment
 from routes.verify import verify
@@ -27,6 +27,7 @@ app.add_url_rule("/auth", view_func=auth, methods=["POST"])
 
 app.add_url_rule("/post", view_func=post, methods=["POST"])
 app.add_url_rule("/post/<id>", view_func=post_get, methods=["POST"])
+app.add_url_rule("/post_get", view_func=post_paginate, methods=["POST"])
 
 app.add_url_rule("/category", view_func=category, methods=["POST"])
 app.add_url_rule("/category", view_func=category_get, methods=["GET"])
