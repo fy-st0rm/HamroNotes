@@ -16,6 +16,7 @@ const logout_router = require("./routes/logout");
 const post_router = require("./routes/post");
 const image_router = require("./routes/image");
 const comment_router = require("./routes/comment");
+const verify_email_router = require("./routes/verify_email");
 
 // Express app
 const app = express();
@@ -43,6 +44,7 @@ app.use("/logout", logout_router);
 app.use("/post", post_router);
 app.use("/post", image_router);
 app.use("/comment", comment_router);
+app.use("/verify", verify_email_router);
 
 // Running
 const server = http.createServer(app);

@@ -27,15 +27,7 @@ router.post("/", async (req, res, next) => {
 		res.render("signup", { result: data.log });
 		return;
 	}
-
-	res.redirect(307, url.format({
-		pathname: "login",
-		query: {
-			"email": email,
-			"password": password,
-			"result": ""
-		}
-	}));
+	res.render("signup", { result: "Verify email before loging in." });
 });
 
 module.exports = router;
