@@ -62,7 +62,15 @@ router.post("/", auth.auth_token, init_folder, upload.array("multi_images"), asy
 	};
 
 	const request = await utils.server_query("/post", "POST", payload);
-	console.log(request);
+	if (request.status == globals.FAILED) {
+		res.redirect(url.format({
+			pathname: "../error",
+			query: {
+				"error": `${request.log}`
+			}
+		}));
+		return;
+	}
 
 	res.redirect("home");
 });
@@ -83,13 +91,14 @@ router.get("/:post_id", async (req, res, next) => {
 	}
 
 	let post = request.ext[0];
-	console.log(post);
 	res.render("post_viewer", {
+		id: post.id,
 		title: post.title,
 		author: post.author,
 		date: post.date,
 		description: post.description,
-		content: post.content
+		content: post.content,
+		comment: post.comments
 	});
 });
 

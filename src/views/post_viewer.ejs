@@ -13,5 +13,15 @@
 	<% for (let i = 0; i < content.length; i++) { %>
 		<img src="image/<%= content[i] %>">
 	<% } %>
+
+	<form action="/comment/<%= id %>" method="post">
+		Comment: <input type="text" name="comment">
+		<input type="submit" value="Submit">
+	</form>
+
+	<% for (let i = 0; i < comment.length; i++) { %>
+		<div> <b> <%= comment[i].author %> </b>: <%= comment[i].text %> </div>
+	<% } %>
+
 </body>
 </html>
