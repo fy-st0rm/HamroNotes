@@ -8,7 +8,7 @@ from routes.auth import auth
 from routes.post import post
 from routes.post import post_get, post_paginate
 from routes.category import category, category_get, category_edit, category_delete
-from routes.comment import comment
+from routes.comment import comment, comment_edit
 from routes.verify import verify
 
 app = Flask(__name__)
@@ -35,6 +35,7 @@ app.add_url_rule("/category", view_func=category_edit, methods=["PUT"])
 app.add_url_rule("/category", view_func=category_delete, methods=["DELETE"])
 
 app.add_url_rule("/comment", view_func=comment, methods=["POST"])
+app.add_url_rule("/comment", view_func=comment_edit, methods=["PUT"])
 app.add_url_rule("/verify/<token>", view_func=verify, methods=["POST"])
 
 

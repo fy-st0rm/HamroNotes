@@ -88,10 +88,6 @@ def post_paginate():
 	except Exception as e:
 		return Response(FAILED, "Page doesnot exist", []).as_json()
 	
-
-	
-
-	
 	res = {
 	}
 	for postQuery in postQuerys:	
