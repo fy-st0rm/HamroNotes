@@ -1,0 +1,18 @@
+const express = require("express");
+const utils = require("../utils");
+const router = express.Router();
+
+router.post("/", async (req, res, next) => {
+	let page = req.body.page;
+	let amt = req.body.amt;
+
+	let payload = {
+		"page_no": page,
+		"amount": amt
+	};
+
+	const request = await utils.server_query("/post_get", "POST", payload);
+	res.json(request.ext);
+});
+
+module.exports = router;

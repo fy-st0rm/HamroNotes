@@ -17,6 +17,7 @@ const post_router = require("./routes/post");
 const image_router = require("./routes/image");
 const comment_router = require("./routes/comment");
 const verify_email_router = require("./routes/verify_email");
+const news_feed_router = require("./routes/news_feed");
 
 // Express app
 const app = express();
@@ -33,6 +34,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookie_parser());
 app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Setting up routers
 app.use("/", index_router);
@@ -45,6 +47,7 @@ app.use("/post", post_router);
 app.use("/post", image_router);
 app.use("/comment", comment_router);
 app.use("/verify", verify_email_router);
+app.use("/news_feed", news_feed_router);
 
 // Running
 const server = http.createServer(app);
