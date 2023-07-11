@@ -75,21 +75,28 @@ def post_get(id):
 
 def post_paginate():
 	response = request.get_json()
-	if not verify_key(["pageNo", "ammount"], response):
-		return Response(FAILED, "`pageNo`, `ammount`", []).as_json()
+	if not verify_key(["page_no", "amount"], response):
+		return Response(FAILED, "`page_no`, `amount` are the required fields", []).as_json()
 	
 
-	pageNo = response["pageNo"]
-	ammount = response["ammount"]
+	pageNo = response["page_no"]
+	amount = response["amount"]
 
-	postQuerys = Post.query.paginate(page=pageNo, per_page=ammount)
+	try:
+
+		postQuerys = Post.query.paginate(page=pageNo, per_page=amount)
+	except Exception as e:
+		return Response(FAILED, "Page doesnot exist", []).as_json()
+	
+
+	
+
+	
 	res = {
 	}
 	for postQuery in postQuerys:	
 		userQuery = User.query.filter_by(id=postQuery.author).first()
 		categoryQuery = Category.query.filter_by(id=postQuery.category).first()
-		commentQuery  = Comment.query.filter_by(postId=postQuery.id).all()
-		contentQuery  = Content.query.filter_by(postId=postQuery.id).all()
 
 		pst = {
 			"id": postQuery.id,
