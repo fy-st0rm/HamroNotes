@@ -42,5 +42,4 @@ app.add_url_rule("/verify/<token>", view_func=verify, methods=["POST"])
 
 
 if __name__ == '__main__':
-	os.mkdir('logs')
 	app.run(debug=True)
