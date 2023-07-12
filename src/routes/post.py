@@ -75,33 +75,49 @@ def post_get(id):
 
 def post_paginate():
 	response = request.get_json()
-	if not verify_key(["page_no", "amount"], response):
-		return Response(FAILED, "`page_no`, `amount` are the required fields", []).as_json()
+
+	if not verify_key(["category_id", "search_text", "page_no", "amount"], response):
+		return Response(FAILED, "`category_id`, `search_text` are the required payload fields.", []).as_json()
+
+	categoryId    = response['category_id']
+	search_text = response['search_text']
+	pageNo = response['page_no']
+	amount = response['amount']
+
+	categoryQuery = Category.query.filter_by(id=categoryId).first()
 	
-
-	pageNo = response["page_no"]
-	amount = response["amount"]
-
-	try:
-
-		postQuerys = Post.query.paginate(page=pageNo, per_page=amount)
-	except Exception as e:
-		return Response(FAILED, "Page doesnot exist", []).as_json()
-	
+	if categoryId and search_text:
+		try:
+			postQuerys = Post.query.filter((Post.title.like('%' + search_text + '%')) & (Post.category==categoryId)).paginate(page=pageNo, per_page=amount)
+		except Exception as e:
+			return Response(FAILED, "Page doesnot exist", []).as_json()
+	elif categoryId or search_text:
+		try:
+			postQuerys = Post.query.filter((Post.title.like(f'%{search_text}%')) | (Post.category==categoryId)).paginate(page=pageNo, per_page=amount)
+		except Exception as e:
+			print(e)
+			return Response(FAILED, "Page doesnot exist", []).as_json()
+	else:
+		try:
+			postQuerys = Post.query.paginate(page=pageNo, per_page=amount)
+		except Exception as e:
+			
+			return Response(FAILED, "Page doesnot exist", []).as_json()
+		
 	res = {
-	}
-	for postQuery in postQuerys:	
-		userQuery = User.query.filter_by(id=postQuery.author).first()
-		categoryQuery = Category.query.filter_by(id=postQuery.category).first()
 
+	}
+
+	for post in postQuerys:
+		userQuery = User.query.filter_by(id=post.author).first()
+		categoryQuery = Category.query.filter_by(id=post.category).first()
 		pst = {
-			"id": postQuery.id,
-			"title":postQuery.title,
-			"date":postQuery.date,
+			"id": post.id,
+			"title":post.title,
+			"date":post.date,
 			"author": userQuery.username,
 			"category": categoryQuery.title,
 		}	
 		res.update({pst["id"]: pst})
-
 	return Response(SUCESS, "", [res]).as_json()
 
