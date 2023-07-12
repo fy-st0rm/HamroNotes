@@ -12,13 +12,24 @@
 		<input type="submit" value="logout">
 	</form>
 
+	<form onsubmit="return false;" class="search">
+		<input type="text" name="title" id="title">
+		<select name="category" id="category">
+			<% for (let i=0; i < categories.length; i++) { %>
+				<option> <%= categories[i] %></option>
+			<% } %>
+		</select>
+		<input type="submit" value="Search">
+	</form>
+
 	<div class="container">
 		<div class="posts">
 		</div>
 	</div>
 
 	<script type="module" src="/js/utils.js"></script>
-	<script type="module" src="/js/news_feed.js"></script>  
+	<script type="module" src="/js/news_feed.js"></script>
+
 </body>
 
 </html>

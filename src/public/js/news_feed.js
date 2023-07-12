@@ -1,43 +1,69 @@
 import { server_ip, server_query, redirect_to } from "/js/utils.js";
 
 const posts_list = document.querySelector('.posts');
-let current_page = 1;
-let amt = 3;
+const search_form = document.querySelector('.search');
 
-const fetch_post = async (page, amt) => {
-	let payload = {
-		"page": page,
-		"amt": amt
-	};
-	const request = await server_query("/news_feed", "POST", payload);
-	return request[0];
-};
+class NewsFeed {
+	constructor() {
+		this.current_page = 1;
+		this.post_amount = 3;
 
-const add_click_event = (id) => {
-	document.getElementById(`${id}`).addEventListener("click", () => {
-		redirect_to(`/post/${id}`);
-	});
-};
-
-const show_post = (posts) => {
-	 posts.forEach(post => {
-		const block = document.createElement('div');
-		block.classList.add('post');
-		block.setAttribute("id", `${post.id}`);
-		block.innerHTML = `${post.title}`;
-		posts_list.appendChild(block);
-
-		add_click_event(post.id);
-	});
-};
-
-const loader = async (page, amt) => {
-	const posts = await fetch_post(page, amt);
-	if (posts) {
-		let values = Object.values(posts);
-		show_post(values);
+		this.search_text = null;
+		this.search_category = document.getElementById("category").value;
 	}
+
+	async fetch_post (title, category, page, amt) {
+		let payload = {
+			"title": title,
+			"category": category,
+			"page": page,
+			"amt": amt
+		};
+		const request = await server_query("/news_feed", "POST", payload);
+		return request[0];
+	};
+
+	add_click_event(id) {
+		document.getElementById(`${id}`).addEventListener("click", () => {
+			redirect_to(`/post/${id}`);
+		});
+	};
+
+	show_post(posts) {
+		 posts.forEach(post => {
+			const block = document.createElement('div');
+			block.classList.add('post');
+			block.setAttribute("id", `${post.id}`);
+			block.innerHTML = `${post.title}`;
+			posts_list.appendChild(block);
+	
+			this.add_click_event(post.id);
+		});
+	};
+
+	async reload() {
+		const posts = await this.fetch_post(this.search_text, this.search_category, this.current_page, this.post_amount);
+		if (posts) {
+			let values = Object.values(posts);
+			this.show_post(values);
+		}
+	};
 };
+
+const news_feed = new NewsFeed();
+news_feed.reload();
+
+search_form.addEventListener("submit", () => {
+	let form_title = document.getElementById("title").value;
+	let form_category = document.getElementById("category").value;
+
+	news_feed.search_text = form_title ? form_title : null;
+	news_feed.search_category = form_category;
+
+	document.getElementsByClassName("posts")[0].innerHTML = "";
+	news_feed.current_page = 1;
+	news_feed.reload();
+});
 
 window.addEventListener('scroll', () => {
 	const {
@@ -47,11 +73,10 @@ window.addEventListener('scroll', () => {
 	} = document.documentElement;
 
 	if (scrollTop + clientHeight >= scrollHeight - 5) {
-		current_page++;
-		loader(current_page, amt);
+		news_feed.current_page++;
+		news_feed.reload();
 	}
 }, {
 	passive: true
 });
 
-loader(current_page, amt);

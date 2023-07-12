@@ -20,4 +20,14 @@ async function server_query(endpoint, method, payload) {
 	return data;
 }
 
+async function fetch_categories() {
+	const response = await server_query("/category", "GET", {});
+
+	// TODO: This might explode. Be aware.
+	let data = response.ext[0].categories;
+	data.all = null;
+	return data;
+}
+
 exports.server_query = server_query;
+exports.fetch_categories = fetch_categories;

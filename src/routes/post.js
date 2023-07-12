@@ -20,14 +20,6 @@ const storage = multer.diskStorage({
 });
 let upload = multer({ storage: storage });
 
-async function fetch_categories() {
-	const response = await utils.server_query("/category", "GET", {});
-
-	// TODO: This might explode. Be aware.
-	let data = response.ext[0].categories;
-	return data;
-}
-
 function init_folder(req, res, next) {
 	if (!fs.existsSync(globals.uploads_folder)) {
 		fs.mkdirSync(globals.uploads_folder);
@@ -36,7 +28,7 @@ function init_folder(req, res, next) {
 }
 
 router.get("/", auth.auth_token, async (req, res, next) => {
-	let categories = await fetch_categories();
+	let categories = await utils.fetch_categories();
 	res.render("post", { categories: Object.keys(categories) } );
 });
 
@@ -46,7 +38,7 @@ router.post("/", auth.auth_token, init_folder, upload.array("multi_images"), asy
 	let description = req.body.description;
 	let category = req.body.category;
 
-	let categories = await fetch_categories();
+	let categories = await utils.fetch_categories();
 
 	let file_names = [];
 	for (let i = 0; i < req.files.length; i++) {

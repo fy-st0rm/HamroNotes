@@ -3,10 +3,16 @@ const utils = require("../utils");
 const router = express.Router();
 
 router.post("/", async (req, res, next) => {
+	let title = req.body.title;
+	let category = req.body.category;
 	let page = req.body.page;
 	let amt = req.body.amt;
 
+	let categories = await utils.fetch_categories();
+
 	let payload = {
+		"category_id": categories[category],
+		"search_text": title,
 		"page_no": page,
 		"amount": amt
 	};
