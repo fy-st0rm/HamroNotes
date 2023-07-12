@@ -18,6 +18,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///items.db'
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 pdb.init_app(app)
 
+logging.basicConfig(filename='logs/record.log', level=logging.DEBUG)
 
 
 # Routes
@@ -37,6 +38,7 @@ app.add_url_rule("/category", view_func=category_delete, methods=["DELETE"])
 app.add_url_rule("/comment", view_func=comment, methods=["POST"])
 app.add_url_rule("/comment", view_func=comment_edit, methods=["PUT"])
 app.add_url_rule("/verify/<token>", view_func=verify, methods=["POST"])
+
 
 
 if __name__ == '__main__':

@@ -13,7 +13,7 @@ def verify(token):
 	except jwt.exceptions.ExpiredSignatureError as e:
 		return Response(TOKEN_EXIPRED, "Token has been expired.", []).as_json()
 	except Exception as e:
-		print(e)
+		app.logger.debug(e)
 		return Response(FAILED, "Token is invalid", []).as_json()
 	email = decodedData['email']
 	userQuery = User.query.filter_by(email=email).first()

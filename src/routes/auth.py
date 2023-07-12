@@ -19,8 +19,10 @@ def token_verification(func):
 			payload = jwt.decode(token, os.getenv('SECRET_KEY'), algorithms=['HS256'])
 			return func(*args, **kwargs)
 		except jwt.exceptions.ExpiredSignatureError as e:
+			app.logger.debug(e)
 			return Response(TOKEN_EXIPRED, "Token has been expired.", []).as_json()
 		except Exception as e:
+			app.logger.debug(e)
 			return Response(FAILED, "Token is invalid", []).as_json()
 
 	return decorated

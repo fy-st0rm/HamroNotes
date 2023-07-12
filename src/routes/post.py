@@ -20,8 +20,10 @@ def post():
 	try:
 		decodedData = jwt.decode(jwt=token, key=os.getenv('SECRET_KEY'), algorithms=["HS256"])
 	except jwt.exceptions.ExpiredSignatureError as e:
+		app.logger.debug(e)
 		return Response(TOKEN_EXIPRED, "Token has been expired.", []).as_json()
 	except Exception as e:
+		app.logger.debug(e)
 		return Response(FAILED, "Token is invalid", []).as_json()
 
 	id = decodedData['id']
@@ -90,18 +92,19 @@ def post_paginate():
 		try:
 			postQuerys = Post.query.filter((Post.title.like('%' + search_text + '%')) & (Post.category==categoryId)).paginate(page=pageNo, per_page=amount)
 		except Exception as e:
+			app.logger.debug(e)
 			return Response(FAILED, "Page doesnot exist", []).as_json()
 	elif categoryId or search_text:
 		try:
 			postQuerys = Post.query.filter((Post.title.like(f'%{search_text}%')) | (Post.category==categoryId)).paginate(page=pageNo, per_page=amount)
 		except Exception as e:
-			print(e)
+			app.logger.debug(e)
 			return Response(FAILED, "Page doesnot exist", []).as_json()
 	else:
 		try:
 			postQuerys = Post.query.paginate(page=pageNo, per_page=amount)
 		except Exception as e:
-			
+			app.logger.debug(e)
 			return Response(FAILED, "Page doesnot exist", []).as_json()
 		
 	res = {
